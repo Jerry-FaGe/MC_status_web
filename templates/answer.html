@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}查询结果{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="layui-row layui-col-space10" style="padding: 0 5px;">
+        <div class="layui-col-md6 layui-col-md-offset3" style="margin-top: 15px">
+            <blockquote class="layui-elem-quote">直接输入要查询的服务器地址，点击查询即可返回服务器是否开服，无需进入游戏查看，节省时间</blockquote>
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    {% if server_info %}
+                        <i class="layui-icon layui-icon-ok-circle" style="font-size: 16px; color: #009688;"></i>
+                        服务器已开启
+                    {% else %}
+                        <i class="layui-icon layui-icon-close-fill" style="font-size: 16px; color: #FF5722"></i>
+                        服务器未开启
+                    {% endif %}
+                </div>
+                <div class="layui-card-body">
+                    <ul>
+                        {% if server_info %}
+                            <li>服务器地址：{{ server_host }}</li>
+                            <li>服务器版本：{{ server_info.version }} (protocol {{ server_info.protocol }})</li>
+                            <li>服务器MOTD：{{ server_info.MOTD }}</li>
+                            <li>服务器延迟：{{ server_info.ping }} ms</li>
+                            <li>在线玩家数：{{ server_info.online_players }}</li>
+                            <li>最大玩家数：{{ server_info.max_players }}</li>
+                        {% else %}
+                            <li>服务器地址：{{ server_host }}</li>
+                            <li>服务器当前未开启，如有疑问请联系腐竹或管理员</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            {% if server_info.players %}
+                <table class="layui-table">
+                    <colgroup>
+                        <col width="30%">
+                        <col width="70%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>玩家ID</th>
+                            <th>UUID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for player in server_info.players %}
+                        <tr>
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.id }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}

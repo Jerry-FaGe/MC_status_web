@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}MC服务器状态查询{% endblock %}
+
+{% block css %}
+<style type="text/css">
+    .container{
+        /*height: 320px;
+ 		min-height: 320px;
+ 		max-height: 320px;
+ 		position: absolute;   */
+        margin: 10px auto;
+        padding: 40px 30px 30px 30px;
+        z-index: 130;
+        border-radius: 8px;
+        background-color: #fff;
+        {#box-shadow: 0 3px 18px rgba(33, 43, 42, 0.5);#}
+        font-size: 16px;
+    }
+    .layui-form-item{
+        margin-left: -20px;
+    }
+    a:hover{
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="layui-row layui-col-space10" style="padding: 0 5px;">
+        <div class="layui-col-md6 layui-col-md-offset3" style="margin-top: 15px">
+            <blockquote class="layui-elem-quote">直接输入要查询的服务器地址，点击查询即可返回服务器是否开服，无需进入游戏查看，节省时间</blockquote>
+            <div class="container">
+            <form class="layui-form" action="" method="post" onkeydown="if(event.keyCode==13){return false}">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">服务器地址</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="server" placeholder="请输入服务器地址（如有端口务必带上）" autocomplete="on" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">可查询预设</label>
+                    <div class="layui-input-block">
+                        <select name="preset">
+                            <option value="">预设服务器</option>
+                            <option value="47.104.254.6">发哥1.16.2</option>
+                            <option value="cn-sq-bgp.sakurafrp.com:57697">CC 1.16.2</option>
+                            <option value="cn-sq-bgp.sakurafrp.com:39900">CC 1.12.2</option>
+                            <option value="bgp1.fantasyzone.cc">FantasyZone（FZ）｜内服</option>
+                            <option value="bgp1.fantasyzone.cc:25565">FantasyZone（FZ）｜外服</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">发哥超帅</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="cool[yes]" title="是的">
+                        <input type="checkbox" name="cool[yes]" title="没错" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">开关</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="switch" lay-skin="switch">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">发哥超帅</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="sex" value="是的" title="是的">
+                        <input type="radio" name="sex" value="没错" title="没错" checked>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">查询</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <script>
+                //Demo
+                layui.use('form', function () {
+                    var form = layui.form;
+
+                    //监听提交
+                    form.on('submit(formDemo)', function (data) {
+                        layer.msg(JSON.stringify(data.field));
+                        return false;
+                    });
+                });
+            </script>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}

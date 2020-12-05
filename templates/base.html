@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{% block title %}主页{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui/css/layui.css') }}">
+    <style type="text/css">
+        div[carousel-item] > * {
+            text-align: center;
+            line-height: 280px;
+            color: #fff;
+        }
+
+        div[carousel-item] > *:nth-child(2n) {
+            background-color: #5FB878;
+        }
+
+        div[carousel-item] > *:nth-child(2n+1) {
+            background-color: #009688;
+        }
+
+        #test2 div[carousel-item] > * {
+            line-height: 120px;
+        }
+    </style>
+    {% block css %}{% endblock %}
+
+    <!--自定义看板娘-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <script src="../static/live2d-widget/autoload.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">MC服务器状态查询</div>
+        <!-- 导航栏 -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="">主页</a></li>
+            <li class="layui-nav-item"><a href="">不知道写啥</a></li>
+            <li class="layui-nav-item">
+                <a href="javascript:">想起来再写</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">邮件管理</a></dd>
+                    <dd><a href="">消息管理</a></dd>
+                    <dd><a href="">授权管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:">
+                    <img src="static/img/touxiang.png" class="layui-nav-img">
+                    Jerry_FaGe
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="login.html">退了</a></li>
+        </ul>
+    </div>
+
+    <div style="background-color: #e7e7e7">
+        <!-- 轮播图 -->
+        <div class="layui-carousel" id="test2">
+            <div carousel-item>
+                <div>广告位招租1</div>
+                <div>广告位招租2</div>
+            </div>
+        </div>
+        <!-- 内容主体区域 -->
+        <div>
+            <div class="layui-row">
+                <!-- 3/4 -->
+                <div class="layui-col-md9" style="padding: 0 5px 10px 10px;">
+                    <div class="layui-row grid-demo">
+                        <div class="layui-col-md12">
+                            {% block content %}
+                                这是个父模板
+                            {% endblock %}
+{#                            <div class="aplayer" data-id="2391688784" data-server="netease" data-type="playlist" list-folded="true"></div>#}
+                        <meting-js
+                                server="netease"
+                                type="playlist"
+                                id="2391688784"
+                                list-folded="true"
+                                fixed="true"
+                                theme="#b7daff"
+                                order="random">
+                        </meting-js>
+                        </div>
+                    </div>
+                </div>
+                <!-- 1/4 -->
+                <div class="layui-col-md3" style="padding: 10px 10px 10px 5px;">
+                    <div class="layui-row grid-demo grid-demo-bg1">
+                        <div class="layui-col-md12">
+                            <!-- 提示框 -->
+                            <blockquote class="layui-elem-quote">
+                                欢迎 Jerry_FaGe 登录！快退个群给大家看看吧！&nbsp;&nbsp;&nbsp;
+                                <a href="login.html" target="_self" class="layui-btn layui-btn-danger">退群</a>
+                            </blockquote>
+                            <!-- 卡片 -->
+                            <div class="layui-card">
+                                <div class="layui-card-header">最新公告</div>
+                                <div class="layui-card-body">
+                                    1.16.2 Fabric生存服<br>
+                                    存档为1.12.2移植存档，设施齐全<br>
+                                    1核2G超高配置，不ban红石<br>
+                                    让你体验干啥都会炸服的快感<br>
+                                    地址: 47.104.254.6<br>
+                                    (可以把此地址复制到左侧输入框进行测试)<br>
+                                    欢迎访问: <a href="https://jerry-fage.github.io/" style="color: #009688">本人博客</a>
+                                </div>
+                            </div>
+                            <!-- 版本历史 -->
+                            <div class="layui-card">
+                                <div class="layui-card-body">
+                                    <fieldset class="layui-elem-field layui-field-title">
+							          <legend>版本历史</legend>
+							        </fieldset>
+							        <ul class="layui-timeline">
+                                      <li class="layui-timeline-item">
+							            <i class="layui-icon layui-timeline-axis"></i>
+							            <div class="layui-timeline-content layui-text">
+							              <h3 class="layui-timeline-title">v1.0.1</h3>
+                                          <p>更新时间:2020-11-27</p>
+                                          <ul>
+                                              <li>增加全局吸底音乐播放器</li>
+                                              <li>增加全局Live 2D</li>
+                                          </ul>
+                                        </div>
+							          </li>
+							          <li class="layui-timeline-item">
+							            <i class="layui-icon layui-timeline-axis"></i>
+							            <div class="layui-timeline-content layui-text">
+							              <h3 class="layui-timeline-title">v1.0.0</h3>
+							              <p>更新时间:2020-11-25</p>
+                                          <ul>
+                                              <li>后端架构完全重写</li>
+                                              <li>现在可以解析服务器的真实地址</li>
+                                              <li>服务器版本信息完善</li>
+                                              <li>增加延迟查询（相对于本服务器所在地）</li>
+                                              <li>支持解析在线玩家列表</li>
+                                              <li>引入logger</li>
+                                          </ul>
+							            </div>
+							          </li>
+							          <li class="layui-timeline-item">
+							            <i class="layui-icon layui-timeline-axis"></i>
+							            <div class="layui-timeline-content layui-text">
+							              <h3 class="layui-timeline-title">v0.9.8</h3>
+                                          <p>更新时间:2020-11-24</p>
+                                          <ul>
+                                              <li>初版</li>
+                                              <li>支持查询基本信息</li>
+                                              <li>前端优化</li>
+                                              <li>线上部署</li>
+                                          </ul>
+                                        </div>
+							          </li>
+							          <li class="layui-timeline-item">
+							            <i class="layui-icon layui-timeline-axis"></i>
+							            <div class="layui-timeline-content layui-text">
+							              <div class="layui-timeline-title">开始于2020年11月24日</div>
+							            </div>
+							          </li>
+							        </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="{{ url_for('static',filename='layui/layui.all.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+
+<!-- 轮播图JS -->
+<script type="text/javascript">
+    layui.use('carousel', function () {
+        var carousel = layui.carousel;
+        carousel.render({
+            elem: '#test2'
+            , interval: 2400
+            //,full: true
+            , anim: 'fade'
+            , height: '120px'
+            , width: '100%'
+        });
+    });
+</script>
+
+{% block js %}{% endblock %}
+
+</body>
