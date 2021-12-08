@@ -111,7 +111,7 @@ class McStatus:
         server = MinecraftServer(self.host, self.port)
         try:
             status = server.status()
-            motd = status.description['text']
+            motd = status.description
             motd = re.sub(r'§\w', "", motd).replace("  ", "").replace('\n', ",")
             server_info = {
                 'version': status.version.name,
