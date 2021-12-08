@@ -18,7 +18,7 @@ def index():
         server_add = request.form['server']
         if not preset and not server_add:
             return render_template('no_param.html')
-        if preset:
+        if not server_add:
             server_add = preset
         server = McStatus.lookup(server_add)
         server_info, server_host = server.get_by_mcstatus()
