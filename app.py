@@ -17,7 +17,7 @@ def index():
         preset = request.form['preset']
         server_add = request.form['server']
         if not preset and not server_add:
-            return '你啥也没输你想查啥？输入框和预设至少要有一个'
+            return render_template('no_param.html')
         if preset:
             server_add = preset
         server = McStatus.lookup(server_add)
