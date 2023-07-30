@@ -10,7 +10,7 @@ import socket
 import codecs
 import dns.resolver
 from urllib.parse import urlparse
-from mcstatus import MinecraftServer
+from mcstatus import JavaServer
 
 
 def parse_address(address):
@@ -108,7 +108,7 @@ class McStatus:
             return False, "%s:%s" % (self.host, self.port)
 
     def get_by_mcstatus(self):
-        server = MinecraftServer(self.host, self.port)
+        server = JavaServer(self.host, self.port)
         try:
             status = server.status()
             motd = status.description
