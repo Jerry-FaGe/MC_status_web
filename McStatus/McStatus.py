@@ -3,79 +3,53 @@
 """
 Created on 2020/11/24
 
-@author: Jerry
+@author: Jerry_FaGe
 """
 import re
 import socket
 import codecs
-import dns.resolver
 from urllib.parse import urlparse
+
+import dns.resolver
 from mcstatus import JavaServer
 
 
 def parse_address(address):
+    """
+    解析地址
+    """
     tmp = urlparse("//" + address)
     if not tmp.hostname:
         raise ValueError("Invalid address '%s'" % address)
     return tmp.hostname, tmp.port
 
 
+def lookup(address):
+    host, port = parse_address(address)
+    if port:
+        return host, port
+    port = 25565
+    try:
+        answers = dns.resolver.query("_minecraft._tcp." + host, "SRV")
+        if len(answers):
+            answer = answers[0]
+            host = str(answer.target).rstrip(".")
+            port = int(answer.port)
+    except Exception as e:
+        print(f"[error] DNS query error: {e}")
+    finally:
+        return host, port
+
+
 class McStatus:
-    def __init__(self, host, port=25565, timeout=0.6):
-        self.host = host
-        self.port = port
+    def __init__(self, address, timeout=0.6):
+        self.host, self.port = lookup(address)
         self.timeout = timeout
-
-    @staticmethod
-    def lookup(address):
-        host, port = parse_address(address)
-        if port is None:
-            port = 25565
-            try:
-                answers = dns.resolver.query("_minecraft._tcp." + host, "SRV")
-                if len(answers):
-                    answer = answers[0]
-                    host = str(answer.target).rstrip(".")
-                    port = int(answer.port)
-            except Exception:
-                pass
-
-        return McStatus(host, port)
-
-    @staticmethod
-    def logger(server_info, server_host):
-        with open('log.txt', 'a', encoding='utf-8') as f:
-            f.write("=" * 32 + "\n")
-            print("=" * 32)
-            if server_info:
-                f.write("***服务器已开启***\n")
-                print("***服务器已开启***")
-                f.write("\n")
-                print("")
-                f.write("服务器地址：%s\n" % server_host)
-                print("服务器地址：%s" % server_host)
-                f.write("服务器版本：%s (protocol %s)\n" % (server_info['version'], server_info['protocol']))
-                print("服务器版本：%s (protocol %s)" % (server_info['version'], server_info['protocol']))
-                f.write("服务器MOTD：%s\n" % server_info['MOTD'])
-                print("服务器MOTD：%s" % server_info['MOTD'])
-                f.write("服务器延迟：%s ms\n" % server_info['ping'])
-                print("服务器延迟：%s ms" % server_info['ping'])
-                f.write("在线玩家数：%s\n" % server_info['online_players'])
-                print("在线玩家数：%s" % server_info['online_players'])
-                f.write("最大玩家数：%s\n" % server_info['max_players'])
-                print("最大玩家数：%s" % server_info['max_players'])
-                f.write("玩家列表：%s\n" % server_info['players'])
-                print("玩家列表：%s" % server_info['players'])
-            else:
-                f.write("*****服务器未开启*****\n")
-                print("*****服务器未开启*****")
-                f.write("\n")
-                print("")
-                f.write("服务器地址：%s\n" % server_host)
-                print("服务器地址：%s" % server_host)
-            print("=" * 32)
-
-    def get_server_info(self):
+    
+    def _get_server_info_by_socket(self):
+        """
+        通过 socket 获取服务器信息
+        """
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         ip = socket.gethostbyname(self.host)
         try:
@@ -102,10 +76,13 @@ class McStatus:
                 'online_players': data[4].replace("\x00", ""),
                 'max_players': data[5].replace("\x00", "")
             }
-            # print(server_info)
-            return server_info, "%s:%s" % (self.host, self.port)
+            return server_info
         except socket.error:
-            return False, "%s:%s" % (self.host, self.port)
+            return False
+
+    def get_server_info(self):
+        server_info = self._get_server_info_by_socket()
+        return server_info, "%s:%s" % (self.host, self.port)
 
     def get_by_mcstatus(self):
         server = JavaServer(self.host, self.port)
@@ -122,8 +99,6 @@ class McStatus:
                 'protocol': status.version.protocol,
                 'players': status.raw['players'].get('sample', None)
             }
-            self.logger(server_info, "%s:%s" % (self.host, self.port))
             return server_info, "%s:%s" % (self.host, self.port)
         except socket.error:
-            self.logger(False, "%s:%s" % (self.host, self.port))
             return False, "%s:%s" % (self.host, self.port)

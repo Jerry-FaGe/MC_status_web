@@ -20,7 +20,7 @@ def index():
             return render_template('no_param.html')
         if not server_add:
             server_add = preset
-        server = McStatus.lookup(server_add)
+        server = McStatus(server_add)
         server_info, server_host = server.get_by_mcstatus()
         return render_template('answer.html', server_info=server_info, server_host=server_host)
 
